@@ -32,9 +32,9 @@ class CheckoutController extends Controller
     public function create(Camp $camp, Request $request)
     {
         if ($camp->isRegistered) {
-            $request->session()->flash('error', "You already registered on {$camp->title} camp");
+            // $request->session()->flash('error', "You already registered on {$camp->title} camp");
             // Alert::error('Error', "You already registered on {$camp->title} camp");
-            return redirect(route('dashboard'));
+            return redirect(route('user.dashboard'))->with(['error' => "You already registered on {$camp->title} camp"]);
         }
         return view('checkout.create', ['camp' => $camp]);
     }
@@ -115,10 +115,5 @@ class CheckoutController extends Controller
     public function success()
     {
         return view('checkout.success');
-    }
-
-    public function invoice(Checkout $checkout)
-    {
-        return $checkout;
     }
 }
